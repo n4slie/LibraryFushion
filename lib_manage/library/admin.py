@@ -5,18 +5,28 @@ from django.core.exceptions import PermissionDenied
 
 class StaffOnlyAdmin(admin.ModelAdmin):
     def has_module_permission(self, request):
+        if not request.user.is_authenticated:
+            return False
         return request.user.role in [User.Role.LIBRARIAN, User.Role.MANAGER]
 
     def has_view_permission(self, request, obj=None):
+        if not request.user.is_authenticated:
+            return False
         return request.user.role in [User.Role.LIBRARIAN, User.Role.MANAGER]
 
     def has_add_permission(self, request):
+        if not request.user.is_authenticated:
+            return False
         return request.user.role in [User.Role.LIBRARIAN, User.Role.MANAGER]
 
     def has_change_permission(self, request, obj=None):
+        if not request.user.is_authenticated:
+            return False
         return request.user.role in [User.Role.LIBRARIAN, User.Role.MANAGER]
 
     def has_delete_permission(self, request, obj=None):
+        if not request.user.is_authenticated:
+            return False
         return request.user.role == User.Role.MANAGER  # Only managers can delete
 
 @admin.register(User)
