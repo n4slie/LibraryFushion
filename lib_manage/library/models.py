@@ -29,12 +29,13 @@ class Book(models.Model):
 
 class Borrowing(models.Model):
     book = models.ForeignKey(Book, on_delete=models.CASCADE)
-    member = models.ForeignKey(User, on_delete=models.CASCADE, limit_choices_to={'role': User.Role.MEMBER})
+    member = models.ForeignKey(User, on_delete=models.CASCADE, limit_choices_to={'role': User.Role.MEMBER}, related_name='borrowed_books')
     borrow_date = models.DateField(auto_now_add=True)
     return_date = models.DateField(null=True, blank=True)
     is_returned = models.BooleanField(default=False)
     processed_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, 
-                                   limit_choices_to={'role__in': [User.Role.LIBRARIAN, User.Role.MANAGER]})
+                                   limit_choices_to={'role__in': [User.Role.LIBRARIAN, User.Role.MANAGER]},
+                                   related_name='processed_borrowings')
     
     def __str__(self):
         return f"{self.member} borrowed {self.book}"
