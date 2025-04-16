@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Library Staff Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="container mt-5">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light mb-4">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="{% url 'home' %}">Library Staff Dashboard</a>
+            <div class="navbar-nav">
+                <a class="nav-link" href="{% url 'book_list' %}">Manage Books</a>
+                <a class="nav-link" href="{% url 'borrowing_list' %}">Manage Borrowings</a>
+                <a class="nav-link" href="{% url 'admin:index' %}">Admin Panel</a>
+                <a class="nav-link" href="{% url 'admin:logout' %}">Logout</a>
+            </div>
+        </div>
+    </nav>
+
+    <h1 class="mb-4 text-center">Staff Dashboard</h1>
+
+    <div class="row">
+        <div class="col-md-6">
+            <h2>Recent Borrowings</h2>
+            {% if recent_borrowings %}
+                {% for borrowing in recent_borrowings %}
+                    <div class="card mb-3">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ borrowing.book.title }}</h5>
+                            <p class="card-text">Borrowed by: {{ borrowing.member.get_full_name }}</p>
+                            <p class="card-text">Borrowed on: {{ borrowing.borrow_date }}</p>
+                            <p class="card-text">Due: {{ borrowing.return_date|default:"Not set" }}</p>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <p class="alert alert-info">No recent borrowings.</p>
+            {% endif %}
+        </div>
+        <div class="col-md-6">
+            <h2>Low Stock Books</h2>
+            {% if low_stock_books %}
+                {% for book in low_stock_books %}
+                    <div class="card mb-3">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ book.title }}</h5>
+                            <p class="card-text">By {{ book.author }}</p>
+                            <p class="card-text">Available: {{ book.available }} copies</p>
+                            <p class="card-text text-danger">Low stock warning!</p>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <p class="alert alert-success">No books are low in stock.</p>
+            {% endif %}
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html> 
