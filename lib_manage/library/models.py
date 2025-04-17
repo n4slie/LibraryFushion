@@ -23,6 +23,7 @@ class Book(models.Model):
     quantity = models.PositiveIntegerField(default=1)
     available = models.PositiveIntegerField(default=1)
     added_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, related_name='added_books')
+    description = models.TextField(blank=True)
     
     def __str__(self):
         return f"{self.title} by {self.author}"
