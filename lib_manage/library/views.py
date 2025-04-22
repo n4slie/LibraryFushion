@@ -1,6 +1,8 @@
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from .models import Book, Borrowing, User
+from .services.google_books_service import GoogleBooksService
+from django.contrib import messages
 
 # Create your views here.
 
@@ -37,3 +39,24 @@ def borrowing_list(request):
         # Members can only see their own borrowings
         borrowings = Borrowing.objects.filter(member=request.user)
     return render(request, 'library/borrowing_list.html', {'borrowings': borrowings})
+
+@login_required
+def search_books(request):
+    query = request.GET.get('q', '')
+    books = []
+    
+    if query:
+        try:
+            books_service = GoogleBooksService()
+            books = books_service.search_books(query)
+        except ValueError as e:
+            messages.error(request, "Google Books API is not properly configured. Please contact the administrator.")
+            print(f"Google Books API Error: {str(e)}")
+        except Exception as e:
+            messages.error(request, "An error occurred while searching for books. Please try again later.")
+            print(f"Search Error: {str(e)}")
+    
+    return render(request, 'library/search_results.html', {
+        'books': books,
+        'query': query
+    })

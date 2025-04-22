@@ -15,27 +15,36 @@ body {
 }
 
 .navbar {
-    background-color: var(--primary-color) !important;
+    background-color: #f8f9fa;
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
-.navbar-brand, .nav-link {
-    color: var(--light-color) !important;
+.navbar-brand {
+    font-weight: bold;
+    color: #2c3e50;
+}
+
+.nav-link {
+    color: #2c3e50;
+    font-weight: 500;
 }
 
 .nav-link:hover {
-    color: var(--secondary-color) !important;
+    color: #3498db;
 }
 
 .card {
-    border: none;
-    border-radius: 10px;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-    transition: transform 0.3s ease;
+    transition: transform 0.2s;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
 .card:hover {
     transform: translateY(-5px);
+}
+
+.card-img-top {
+    height: 200px;
+    object-fit: cover;
 }
 
 .card-title {
@@ -67,55 +76,42 @@ body {
 
 .book-card {
     position: relative;
-    overflow: hidden;
 }
 
-.book-card .availability-badge {
+.availability-badge {
     position: absolute;
     top: 10px;
     right: 10px;
     padding: 5px 10px;
     border-radius: 15px;
     font-size: 0.8rem;
-    font-weight: 600;
+    font-weight: bold;
 }
 
 .availability-high {
-    background-color: var(--success-color);
+    background-color: #28a745;
     color: white;
 }
 
 .availability-low {
-    background-color: var(--warning-color);
+    background-color: #dc3545;
     color: white;
 }
 
 .search-container {
-    margin: 20px 0;
-    padding: 20px;
-    background-color: white;
-    border-radius: 10px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    margin-bottom: 30px;
 }
 
 .search-input {
-    border: 2px solid var(--light-color);
-    border-radius: 5px;
-    padding: 10px;
-    width: 100%;
-    transition: border-color 0.3s ease;
-}
-
-.search-input:focus {
-    border-color: var(--secondary-color);
-    outline: none;
+    border-radius: 20px;
+    padding-left: 20px;
 }
 
 .footer {
-    background-color: var(--primary-color);
-    color: var(--light-color);
+    background-color: #f8f9fa;
     padding: 20px 0;
-    margin-top: 40px;
+    margin-top: 50px;
+    border-top: 1px solid #dee2e6;
 }
 
 @media (max-width: 768px) {
@@ -123,7 +119,7 @@ body {
         margin-bottom: 20px;
     }
     
-    .search-container {
-        margin: 10px 0;
+    .card-img-top {
+        height: 150px;
     }
 } 

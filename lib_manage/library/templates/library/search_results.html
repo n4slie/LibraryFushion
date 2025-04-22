@@ -1,0 +1,65 @@
+{% extends 'library/base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-12">
+            <form action="{% url 'search_books' %}" method="get" class="mb-4">
+                <div class="input-group">
+                    <input type="text" name="q" class="form-control" placeholder="Search for books..." value="{{ query }}">
+                    <div class="input-group-append">
+                        <button class="btn btn-primary" type="submit">
+                            <i class="fas fa-search me-1"></i>Search
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }}">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
+
+    {% if query %}
+        <h2>Search Results for "{{ query }}"</h2>
+        
+        {% if books %}
+            <div class="row">
+                {% for book in books %}
+                    <div class="col-md-4 mb-4">
+                        <div class="card">
+                            {% if book.thumbnail %}
+                                <img src="{{ book.thumbnail }}" class="card-img-top" alt="{{ book.title }}">
+                            {% endif %}
+                            <div class="card-body">
+                                <h5 class="card-title">{{ book.title }}</h5>
+                                <p class="card-text">
+                                    <strong>Authors:</strong> {{ book.authors|join:", " }}<br>
+                                    <strong>Publisher:</strong> {{ book.publisher }}<br>
+                                    <strong>Published:</strong> {{ book.published_date }}<br>
+                                    {% if book.isbn_13 %}
+                                        <strong>ISBN:</strong> {{ book.isbn_13 }}<br>
+                                    {% endif %}
+                                </p>
+                                <p class="card-text">{{ book.description|truncatewords:30 }}</p>
+                                {% if book.preview_link %}
+                                    <a href="{{ book.preview_link }}" class="btn btn-primary" target="_blank">Preview</a>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="alert alert-info">
+                No books found matching your search criteria.
+            </div>
+        {% endif %}
+    {% endif %}
+</div>
+{% endblock %} 

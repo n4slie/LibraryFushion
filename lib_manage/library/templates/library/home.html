@@ -41,19 +41,24 @@
     </nav>
 
     <div class="container mt-4">
+        <div class="row">
+            <div class="col-md-12">
+                <form action="{% url 'search_books' %}" method="get" class="mb-4">
+                    <div class="input-group">
+                        <input type="text" name="q" class="form-control" placeholder="Search for books..." value="{{ query }}">
+                        <div class="input-group-append">
+                            <button class="btn btn-primary" type="submit">
+                                <i class="fas fa-search me-1"></i>Search
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
         <h1 class="text-center mb-4">Welcome to Our Library</h1>
 
         {% if user.is_authenticated %}
             {% if user.role == 'MEMBER' %}
-                <div class="search-container mb-4">
-                    <div class="input-group">
-                        <input type="text" class="form-control search-input" placeholder="Search books..." id="searchInput">
-                        <button class="btn btn-primary" type="button">
-                            <i class="fas fa-search"></i>
-                        </button>
-                    </div>
-                </div>
-
                 <div class="row">
                     <div class="col-md-6">
                         <h2 class="mb-3">
@@ -126,23 +131,5 @@
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script>
-        // Search functionality
-        document.getElementById('searchInput').addEventListener('input', function(e) {
-            const searchTerm = e.target.value.toLowerCase();
-            const cards = document.querySelectorAll('.book-card');
-            
-            cards.forEach(card => {
-                const title = card.querySelector('.card-title').textContent.toLowerCase();
-                const author = card.querySelector('.card-text').textContent.toLowerCase();
-                
-                if (title.includes(searchTerm) || author.includes(searchTerm)) {
-                    card.style.display = '';
-                } else {
-                    card.style.display = 'none';
-                }
-            });
-        });
-    </script>
 </body>
 </html> 
